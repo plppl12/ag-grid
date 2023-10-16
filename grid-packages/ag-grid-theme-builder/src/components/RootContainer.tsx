@@ -2,17 +2,17 @@ import '@ag-grid-community/styles/ag-grid.css';
 import '@ag-grid-community/styles/ag-theme-alpine.css';
 import '@ag-grid-community/styles/ag-theme-balham.css';
 import '@ag-grid-community/styles/ag-theme-material.css';
-import { TrashCan } from '@carbon/icons-react';
 import styled from '@emotion/styled';
+import { Delete, Download } from '@mui/icons-material';
+import { Button, Modal } from '@mui/joy';
 import { useParentTheme } from 'atoms/parentTheme';
 import { useRenderedCss } from 'atoms/renderedCss';
 import { useResetVariableDefaults } from 'atoms/variableDefaults';
 import { Inspector } from 'components/inspector/Inspector';
 import { memo, useLayoutEffect, useState } from 'react';
 import { Tooltip } from 'react-tooltip';
-import { CopyButton } from './CopyButton';
+import { DownloadDialog } from './DownloadDialog';
 import { GridPreview } from './GridPreview';
-import { IconButton } from './IconButton';
 import { ParentThemeMenu } from './ParentThemeMenu';
 
 export const RootContainer = memo(() => {
@@ -20,6 +20,7 @@ export const RootContainer = memo(() => {
   const renderedCss = useRenderedCss();
   const resetVariableDefaults = useResetVariableDefaults();
   const [hasRenderedStyles, setHasRenderedStyles] = useState(false);
+  const [showDownload, setShowDownload] = useState(false);
 
   useLayoutEffect(() => {
     setHasRenderedStyles(true);
@@ -35,17 +36,20 @@ export const RootContainer = memo(() => {
           <>
             <TopRow>
               <ParentThemeMenu />
-              <IconButton
-                label="Discard changes"
-                icon={TrashCan}
+              <Button
+                startDecorator={<Delete />}
                 onClick={() => {
                   if (confirm('Discard all of your theme customisations?')) {
                     localStorage.clear();
                     location.reload();
                   }
                 }}
-              />
-              <CopyButton payload={renderedCss} label="Copy CSS" />
+              >
+                Discard changes
+              </Button>
+              <Button startDecorator={<Download />} onClick={() => setShowDownload(true)}>
+                Download Theme
+              </Button>
             </TopRow>
             <Columns>
               <LeftColumn>
@@ -64,6 +68,9 @@ export const RootContainer = memo(() => {
           </>
         )}
       </Container>
+      <Modal open={showDownload} onClose={() => setShowDownload(false)}>
+        <DownloadDialog />
+      </Modal>
     </>
   );
 });

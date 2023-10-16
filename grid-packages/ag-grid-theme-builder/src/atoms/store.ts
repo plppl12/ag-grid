@@ -7,16 +7,18 @@ import { getVariableInfoOrThrow } from 'model/variableInfo';
 import { throttle } from 'throttle-debounce';
 import { enabledFeaturesAtom } from './enabledFeatures';
 import { parentThemeAtom } from './parentTheme';
+import { themeNameAtom } from './themeName';
 import { allValueAtoms, valuesAtom } from './values';
 
 export const initStore = () => {
   const defaultTheme =
     typeof window === 'object' &&
-    getComputedStyle(window.document.documentElement).getPropertyValue('--color-scheme') === 'dark'
+    getComputedStyle(window.document.documentElement).getPropertyValue('color-scheme') === 'dark'
       ? alpineDarkTheme
       : alpineTheme;
 
   const store = createStore();
+  restoreValue('themeName', deserializeString, store, themeNameAtom);
   restoreValue('parentTheme', deserializeTheme, store, parentThemeAtom, defaultTheme);
   restoreValue('enabledFeatures', deserializeEnabledFeatures, store, enabledFeaturesAtom);
   restoreValue('values', deserializeValues, store, valuesAtom);
@@ -24,6 +26,7 @@ export const initStore = () => {
   const saveState = throttle(
     100,
     () => {
+      persistValue('themeName', serializeString, store, themeNameAtom);
       persistValue('parentTheme', serializeTheme, store, parentThemeAtom);
       persistValue('enabledFeatures', serializeEnabledFeatures, store, enabledFeaturesAtom);
       persistValue('values', serializeValues, store, valuesAtom);
@@ -91,6 +94,15 @@ const deserializeTheme = (themeName: unknown) => {
     throw new Error('expected string');
   }
   return getThemeOrThrow(themeName);
+};
+
+const serializeString = (value: string) => value;
+
+const deserializeString = (value: unknown) => {
+  if (typeof value !== 'string') {
+    throw new Error('expected string');
+  }
+  return value;
 };
 
 const serializeEnabledFeatures = (features: ReadonlyArray<Feature>) => features.map((f) => f.name);

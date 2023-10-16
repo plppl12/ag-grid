@@ -1,14 +1,17 @@
 import { useEffect, useRef } from 'react';
 
+type HasFocus = {
+  focus(): void;
+};
+
 export const useFocusInput = (focus: boolean | undefined) => {
-  // NOTE: we need to use bypass typechecking
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const ref = useRef<any>(null);
+  const ref = useRef<HasFocus | null>(null);
   useEffect(() => {
     if (focus) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       ref.current?.focus?.();
     }
   }, [focus]);
-  return ref;
+  return (instance: HasFocus | null) => {
+    ref.current = instance;
+  };
 };
