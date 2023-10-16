@@ -1,10 +1,9 @@
+import { Input as JoyInput } from '@mui/joy';
 import { ResultOrError, clamp } from 'model/utils';
 import { Dimension } from 'model/values/Dimension';
 import { DimensionVariableInfo } from 'model/variableInfo';
 import { useEffect, useRef, useState } from 'react';
 import { Input } from './Input';
-import { InputElement } from './InputElement';
-import { useFocusInput } from './useFocusInput';
 
 export const DimensionInput: Input<'dimension'> = (props) => {
   const propsRef = useRef(props);
@@ -33,17 +32,21 @@ export const DimensionInput: Input<'dimension'> = (props) => {
 
   return (
     <>
-      <InputElement
-        ref={useFocusInput(props.focus)}
+      <JoyInput
+        // ref={useFocusInput(props.focus)}
         type="number"
         value={inputValue}
         style={{
           width: clamp(inputValue.length * charWidth, minWidth, maxWidth) + additionalWidth,
         }}
         className={props.error ? 'is-error' : undefined}
-        min={props.info.min}
-        max={props.info.max}
-        step={props.info.step}
+        slotProps={{
+          input: {
+            min: props.info.min,
+            max: props.info.max,
+            step: props.info.step,
+          },
+        }}
         onChange={(e) => setInputValue(e.target.value)}
         onBlur={() => setInputValue(String(props.value.number))}
       />
