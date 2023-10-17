@@ -1,5 +1,5 @@
 import { Input as JoyInput } from '@mui/joy';
-import { ResultOrError, clamp } from 'model/utils';
+import { ResultOrError } from 'model/utils';
 import { Dimension } from 'model/values/Dimension';
 import { DimensionVariableInfo } from 'model/variableInfo';
 import { useEffect, useRef, useState } from 'react';
@@ -36,9 +36,6 @@ export const DimensionInput: Input<'dimension'> = (props) => {
         autoFocus
         type="number"
         value={inputValue}
-        style={{
-          width: clamp(inputValue.length * charWidth, minWidth, maxWidth) + additionalWidth,
-        }}
         className={props.error ? 'is-error' : undefined}
         slotProps={{
           input: {
@@ -54,11 +51,6 @@ export const DimensionInput: Input<'dimension'> = (props) => {
     </>
   );
 };
-
-const minWidth = 20;
-const charWidth = 30;
-const additionalWidth = 40;
-const maxWidth = 100;
 
 const parseInputValue = (
   value: string,

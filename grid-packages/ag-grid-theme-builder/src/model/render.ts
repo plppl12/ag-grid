@@ -27,7 +27,9 @@ export const addCssDocs = ({
  * To use your new theme, copy this CSS into your application stylesheets and add
  * the class "${themeClass}" to the div containing the grid, *in addition to* the
  * ${parentTheme.label} class:
- * <div id="myGrid" class="${parentTheme.class} ${themeClass}"></div> * Link to docs
+ * <div id="myGrid" class="${parentTheme.class} ${themeClass}"></div>
+ * 
+ * See https://ag-grid.com/javascript-data-grid/global-style-customisation/
  */
 
 ${content}

@@ -7,6 +7,7 @@ import { Delete, Download } from '@mui/icons-material';
 import { Button, Modal } from '@mui/joy';
 import { useParentTheme } from 'atoms/parentTheme';
 import { useRenderedCss } from 'atoms/renderedCss';
+import { useThemeClass } from 'atoms/theme';
 import { useResetVariableDefaults } from 'atoms/variableDefaults';
 import { Inspector } from 'components/inspector/Inspector';
 import { memo, useLayoutEffect, useState } from 'react';
@@ -17,6 +18,7 @@ import { ParentThemeMenu } from './ParentThemeMenu';
 
 export const RootContainer = memo(() => {
   const parentTheme = useParentTheme();
+  const themeClass = useThemeClass();
   const renderedCss = useRenderedCss();
   const resetVariableDefaults = useResetVariableDefaults();
   const [hasRenderedStyles, setHasRenderedStyles] = useState(false);
@@ -30,7 +32,10 @@ export const RootContainer = memo(() => {
   return (
     <>
       <style>{renderedCss}</style>
-      <DefaultsElement className={parentTheme.class} id="theme-builder-defaults-computation" />
+      <DefaultsElement
+        className={`${parentTheme.class} ${themeClass}`}
+        id="theme-builder-defaults-computation"
+      />
       <Container>
         {hasRenderedStyles && (
           <>
