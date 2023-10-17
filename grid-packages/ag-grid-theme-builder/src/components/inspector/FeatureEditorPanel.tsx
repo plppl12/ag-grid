@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Sheet } from '@mui/joy';
 import { useSetCurrentFeature } from 'atoms/currentFeature';
 import { useRemoveEnabledFeature } from 'atoms/enabledFeatures';
 import { Feature } from 'model/features';
@@ -54,13 +55,12 @@ export const FeatureEditorPanel = (props: FeatureEditorPanelProps) => {
   );
 };
 
-const Container = styled('div')`
+const Container = styled(Sheet)`
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: var(--default-background-color);
   display: flex;
   flex-direction: column;
 

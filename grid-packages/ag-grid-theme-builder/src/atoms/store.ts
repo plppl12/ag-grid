@@ -7,7 +7,7 @@ import { getVariableInfoOrThrow } from 'model/variableInfo';
 import { throttle } from 'throttle-debounce';
 import { enabledFeaturesAtom } from './enabledFeatures';
 import { parentThemeAtom } from './parentTheme';
-import { themeNameAtom } from './themeName';
+import { themeLabelAtom } from './theme';
 import { allValueAtoms, valuesAtom } from './values';
 
 export const initStore = () => {
@@ -18,7 +18,7 @@ export const initStore = () => {
       : alpineTheme;
 
   const store = createStore();
-  restoreValue('themeName', deserializeString, store, themeNameAtom);
+  restoreValue('themeLabel', deserializeString, store, themeLabelAtom);
   restoreValue('parentTheme', deserializeTheme, store, parentThemeAtom, defaultTheme);
   restoreValue('enabledFeatures', deserializeEnabledFeatures, store, enabledFeaturesAtom);
   restoreValue('values', deserializeValues, store, valuesAtom);
@@ -26,7 +26,7 @@ export const initStore = () => {
   const saveState = throttle(
     100,
     () => {
-      persistValue('themeName', serializeString, store, themeNameAtom);
+      persistValue('themeLabel', serializeString, store, themeLabelAtom);
       persistValue('parentTheme', serializeTheme, store, parentThemeAtom);
       persistValue('enabledFeatures', serializeEnabledFeatures, store, enabledFeaturesAtom);
       persistValue('values', serializeValues, store, valuesAtom);
@@ -87,13 +87,13 @@ const restoreValue = <T>(
 
 const storageKey = (key: string) => `theme-builder.theme-state.${key}`;
 
-const serializeTheme = (theme: Theme) => theme.name;
+const serializeTheme = (theme: Theme) => theme.class;
 
-const deserializeTheme = (themeName: unknown) => {
-  if (typeof themeName !== 'string') {
+const deserializeTheme = (themeClass: unknown) => {
+  if (typeof themeClass !== 'string') {
     throw new Error('expected string');
   }
-  return getThemeOrThrow(themeName);
+  return getThemeOrThrow(themeClass);
 };
 
 const serializeString = (value: string) => value;

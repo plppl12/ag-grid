@@ -1,8 +1,9 @@
-import { ColDef, createGrid, GridApi, GridOptions } from '@ag-grid-community/core';
+import { ColDef, GridApi, GridOptions, createGrid } from '@ag-grid-community/core';
 import styled from '@emotion/styled';
 import { useCurrentFeature } from 'atoms/currentFeature';
 import { useEnabledFeatures } from 'atoms/enabledFeatures';
 import { useParentTheme } from 'atoms/parentTheme';
+import { useThemeClass } from 'atoms/theme';
 import { useVariableValues } from 'atoms/values';
 import { withErrorBoundary } from 'components/ErrorBoundary';
 import { getColumnDefs, getGroupColumnDefs, getRowData } from 'model/exampleData';
@@ -21,6 +22,7 @@ const GridPreview = () => {
   const features = useEnabledFeatures();
   const currentFeature = useCurrentFeature();
   const parentTheme = useParentTheme();
+  const themeClass = useThemeClass();
   const values = useVariableValues();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +35,7 @@ const GridPreview = () => {
     .map((variableName) => values[variableName])
     .filter(isNotNull)
     .map((value) => value.toCss())
-    .concat(parentTheme.name)
+    .concat(parentTheme.class)
     .concat(features.map((f) => f.name))
     .join(';');
 
@@ -48,7 +50,6 @@ const GridPreview = () => {
     void rebuildKey;
 
     const options: GridOptions = {
-      enableRtl: true,
       ...buildGridOptions(features),
       onGridReady: ({ api }) => {
         for (const feature of features) {
@@ -60,7 +61,7 @@ const GridPreview = () => {
       },
     };
 
-    const api = createGrid(wrapperRef.current, options);
+    const api = createGrid(el, options);
     apiRef.current = api;
     setApi(api);
 
@@ -86,12 +87,12 @@ const GridPreview = () => {
   return (
     <>
       <Wrapper
-        className={parentTheme.name}
+        className={`${parentTheme.class} ${themeClass}`}
         ref={wrapperRef}
         style={{ display: PreviewComponent ? 'none' : 'block' }}
       ></Wrapper>
       {PreviewComponent && (
-        <Wrapper className={parentTheme.name}>
+        <Wrapper className={themeClass}>
           <PreviewComponent />
         </Wrapper>
       )}

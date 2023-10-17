@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { Sheet, Stack } from '@mui/joy';
 import { useParentTheme } from 'atoms/parentTheme';
 import { VariableControl } from 'components/controls/VariableControl';
 import { withErrorBoundary } from 'components/ErrorBoundary';
@@ -15,26 +15,22 @@ const FeatureEditor = ({ feature }: FeatureEditorProps) => {
   const parentTheme = useParentTheme();
 
   return (
-    <Container>
-      {feature.variableNames
-        .filter((v) => {
-          const specificToTheme = getVariableInfo(v)?.specificToTheme;
-          if (specificToTheme == null) return true;
-          return getThemeChain(parentTheme).find((t) => t.name === specificToTheme) != null;
-        })
-        .map((name) => (
-          <VariableControl key={name} variableName={name} feature={feature} />
-        ))}
-    </Container>
+    <Sheet>
+      <Stack>
+        {feature.variableNames
+          .filter((v) => {
+            const specificToTheme = getVariableInfo(v)?.specificToTheme;
+            if (specificToTheme == null) return true;
+            return getThemeChain(parentTheme).find((t) => t.class === specificToTheme) != null;
+          })
+          .map((name) => (
+            <VariableControl key={name} variableName={name} feature={feature} />
+          ))}
+      </Stack>
+    </Sheet>
   );
 };
 
 const FeatureEditorWrapped = memo(withErrorBoundary(FeatureEditor));
 
 export { FeatureEditorWrapped as FeatureEditor };
-
-const Container = styled('div')`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;

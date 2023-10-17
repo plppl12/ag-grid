@@ -14,7 +14,7 @@ export const App = ({ variableDescriptions }: ThemeBuilderAppProps) => {
   useEffect(registerFeatureModules, []);
 
   const parentTheme = useParentTheme();
-  const isDark = parentTheme.name.includes('-dark');
+  const isDark = parentTheme.class.includes('-dark');
 
   useLayoutEffect(() => {
     const htmlElement = document.querySelector('html');

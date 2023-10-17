@@ -6,6 +6,7 @@ import { BorderStyle } from './values/BorderStyle';
 import { Color } from './values/Color';
 import { Dimension } from './values/Dimension';
 import { Display } from './values/Display';
+
 test(renderCss, () => {
   const oneOfEachType: Record<ValueType, Value> = {
     color: new Color(1, 0, 0.5, 1),
@@ -16,7 +17,7 @@ test(renderCss, () => {
   };
   expect(
     renderCss({
-      themeName: 'my-theme',
+      className: 'my-theme',
       values: oneOfEachType,
     }),
   ).toMatchInlineSnapshot(`

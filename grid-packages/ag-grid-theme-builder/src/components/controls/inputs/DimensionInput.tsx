@@ -33,7 +33,7 @@ export const DimensionInput: Input<'dimension'> = (props) => {
   return (
     <>
       <JoyInput
-        // ref={useFocusInput(props.focus)}
+        autoFocus
         type="number"
         value={inputValue}
         style={{

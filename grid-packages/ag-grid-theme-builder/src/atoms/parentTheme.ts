@@ -1,12 +1,12 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { Theme, alpineTheme, getThemeOrThrow } from 'model/themes';
 
-export const parentThemeNameAtom = atom(alpineTheme.name);
+export const parentThemeClassAtom = atom(alpineTheme.class);
 
 export const parentThemeAtom = atom(
-  (get) => getThemeOrThrow(get(parentThemeNameAtom)),
+  (get) => getThemeOrThrow(get(parentThemeClassAtom)),
   (_, set, update: Theme) => {
-    set(parentThemeNameAtom, update.name);
+    set(parentThemeClassAtom, update.class);
   },
 );
 

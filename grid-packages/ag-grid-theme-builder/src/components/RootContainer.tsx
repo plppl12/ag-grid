@@ -30,7 +30,7 @@ export const RootContainer = memo(() => {
   return (
     <>
       <style>{renderedCss}</style>
-      <DefaultsElement className={parentTheme.name} id="theme-builder-defaults-computation" />
+      <DefaultsElement className={parentTheme.class} id="theme-builder-defaults-computation" />
       <Container>
         {hasRenderedStyles && (
           <>
@@ -69,7 +69,10 @@ export const RootContainer = memo(() => {
         )}
       </Container>
       <Modal open={showDownload} onClose={() => setShowDownload(false)}>
-        <DownloadDialog />
+        {/* <div>Hi!</div> */}
+        <>
+          <DownloadDialog />
+        </>
       </Modal>
     </>
   );

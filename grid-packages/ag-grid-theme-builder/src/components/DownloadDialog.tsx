@@ -11,14 +11,14 @@ import {
   Typography,
 } from '@mui/joy';
 import { useRenderedCss } from 'atoms/renderedCss';
-import { useThemeNameAtom } from 'atoms/themeName';
+import { useThemeClass, useThemeLabelAtom } from 'atoms/theme';
 import { CopyButton } from './CopyButton';
 
 export const DownloadDialog = () => {
-  const [themeName, setThemeName] = useThemeNameAtom();
-  const themeCssName = makeCssThemeName(themeName);
-  const cssContent = getCssDocComment(themeCssName) + useRenderedCss();
-  const downloadHref = `data:text/css;charset=utf-8,${encodeURIComponent(cssContent)}`;
+  const [themeLabel, setThemeLabel] = useThemeLabelAtom();
+  const className = useThemeClass();
+  const renderedCss = useRenderedCss();
+  const downloadHref = `data:text/css;charset=utf-8,${encodeURIComponent(renderedCss)}`;
 
   return (
     <ModalDialog>
@@ -27,16 +27,18 @@ export const DownloadDialog = () => {
         <Typography level="title-lg">Download Theme CSS</Typography>
         <FormControl>
           <FormLabel>Theme Name</FormLabel>
-          <Input value={themeName} onChange={(e) => setThemeName(e.target.value)} />
-          {themeCssName && <FormHelperText>CSS name: .{themeCssName}</FormHelperText>}
+          <Input value={themeLabel} onChange={(e) => setThemeLabel(e.target.value)} />
+          {className && (
+            <FormHelperText>Your theme will have the CSS class name .{className}</FormHelperText>
+          )}
         </FormControl>
         <Stack direction="row" gap={4}>
-          <CopyButton payload={cssContent}>Copy CSS</CopyButton>
+          <CopyButton payload={renderedCss}>Copy CSS</CopyButton>
           <Button
             component="a"
             startDecorator={<Download />}
             href={downloadHref}
-            download={themeCssName + '.css'}
+            download={className + '.css'}
           >
             Download
           </Button>
@@ -45,23 +47,3 @@ export const DownloadDialog = () => {
     </ModalDialog>
   );
 };
-
-const getCssDocComment = (cssName: string) => `/*
- * To use your new theme, copy the CSS below into your application stylesheets and add
- * the CSS class to the div containing the grid, *in addition to* the Alpine Theme class:
- * <div id="myGrid" class="ag-theme-alpine ${cssName}"></div> * Link to docs
- */
-
-`;
-
-const makeCssThemeName = (humanName: string) =>
-  'ag-theme-' +
-  (humanName
-    // strip accents
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    // replace
-    .replaceAll(/[^0-9a-z]/gi, ' ')
-    .trim()
-    .replaceAll(/\s+/g, '-') || 'custom');

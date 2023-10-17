@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { Divider, Stack } from '@mui/joy';
 import { useCurrentFeature } from 'atoms/currentFeature';
 import { useEnabledFeatures } from 'atoms/enabledFeatures';
 import { EnableFeatureButton } from 'components/inspector/EnableFeatureButton';
@@ -13,7 +13,7 @@ export const Inspector = () => {
   const current = useCurrentFeature();
 
   return (
-    <Container>
+    <Stack sx={{ position: 'relative' }}>
       {inline.map((feature) => (
         <FeatureEditor key={feature.name} feature={feature} />
       ))}
@@ -23,17 +23,6 @@ export const Inspector = () => {
         <InspectFeatureButton key={feature.name} feature={feature} />
       ))}
       <FeatureEditorPanel feature={current} />
-    </Container>
+    </Stack>
   );
 };
-
-const Container = styled('div')`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-const Divider = styled('div')`
-  border-bottom: solid 1px var(--border-color);
-`;

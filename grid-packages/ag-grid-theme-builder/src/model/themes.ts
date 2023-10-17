@@ -1,39 +1,30 @@
-import { indexBy } from './utils';
+import { indexBy, kebabCaseToTitleCase } from './utils';
 
-export type Theme = {
-  readonly name: string;
-  readonly extends: Theme | null;
-};
+export class Theme {
+  public readonly class: string;
+  public readonly extends: Theme | null;
 
-export const baseTheme: Theme = {
-  name: 'ag-theme-base',
-  extends: null,
-};
+  constructor(className: string, extendsTheme: Theme | null) {
+    this.class = className;
+    this.extends = extendsTheme;
+  }
 
-export const alpineTheme: Theme = {
-  name: 'ag-theme-alpine',
-  extends: baseTheme,
-};
+  get label() {
+    return kebabCaseToTitleCase(this.class, 'ag-theme-');
+  }
+}
 
-export const alpineDarkTheme: Theme = {
-  name: 'ag-theme-alpine-dark',
-  extends: alpineTheme,
-};
+export const baseTheme = new Theme('ag-theme-base', null);
 
-export const balhamTheme: Theme = {
-  name: 'ag-theme-balham',
-  extends: baseTheme,
-};
+export const alpineTheme = new Theme('ag-theme-alpine', baseTheme);
 
-export const balhamDarkTheme: Theme = {
-  name: 'ag-theme-balham-dark',
-  extends: balhamTheme,
-};
+export const alpineDarkTheme = new Theme('ag-theme-alpine-dark', alpineTheme);
 
-export const materialTheme: Theme = {
-  name: 'ag-theme-material',
-  extends: baseTheme,
-};
+export const balhamTheme = new Theme('ag-theme-balham', baseTheme);
+
+export const balhamDarkTheme = new Theme('ag-theme-balham-dark', balhamTheme);
+
+export const materialTheme = new Theme('ag-theme-material', baseTheme);
 
 export const allThemes: ReadonlyArray<Theme> = [
   baseTheme,
@@ -44,14 +35,14 @@ export const allThemes: ReadonlyArray<Theme> = [
   materialTheme,
 ];
 
-const themesByName = indexBy(allThemes, 'name');
+const themesByName = indexBy(allThemes, 'class');
 
-export const getTheme = (themeName: string): Theme | null => themesByName[themeName] || null;
+export const getTheme = (themeClass: string): Theme | null => themesByName[themeClass] || null;
 
-export const getThemeOrThrow = (themeName: string) => {
-  const theme = getTheme(themeName);
+export const getThemeOrThrow = (themeClass: string) => {
+  const theme = getTheme(themeClass);
   if (theme == null) {
-    throw new Error(`Invalid theme name "${themeName}"`);
+    throw new Error(`Invalid theme name "${themeClass}"`);
   }
   return theme;
 };
