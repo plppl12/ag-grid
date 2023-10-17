@@ -1,4 +1,4 @@
-import { indexBy, kebabCaseToTitleCase } from './utils';
+import { indexBy, titleCase } from './utils';
 
 export class Theme {
   public readonly class: string;
@@ -10,7 +10,7 @@ export class Theme {
   }
 
   get label() {
-    return kebabCaseToTitleCase(this.class, 'ag-theme-');
+    return titleCase(this.class, 'ag-theme-');
   }
 }
 

@@ -4,7 +4,7 @@ import { useVariableDescription } from 'atoms/variableDescriptions';
 import { withErrorBoundary } from 'components/ErrorBoundary';
 import { Control } from 'components/controls/Control';
 import { Feature } from 'model/features';
-import { kebabCaseToTitleCase } from 'model/utils';
+import { titleCase } from 'model/utils';
 import { getVariableInfoOrThrow } from 'model/variableInfo';
 import { ReactElement, memo, useState } from 'react';
 import { DefaultValue } from './DefaultValue';
@@ -32,7 +32,7 @@ const VariableControl = ({ variableName, feature }: VariableControlProps): JSX.E
   if (!prefix || variableName === prefix || !variableName.startsWith(prefix)) {
     prefix = '--ag-';
   }
-  const label = kebabCaseToTitleCase(variableName, prefix);
+  const label = titleCase(variableName, prefix);
   if (!value) {
     const defaultValue = getVariableDefault(variableName);
     return (

@@ -25,11 +25,14 @@ export type ResultOrError<T> = { ok: true; result: T } | { ok: false; error: str
 export const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value));
 
-export const kebabCaseToTitleCase = (variableName: string, prefix?: string) => {
+export const titleCase = (variableName: string, prefix?: string) => {
   if (prefix && variableName.startsWith(prefix)) {
     variableName = variableName.substring(prefix.length);
   }
-  return variableName.replaceAll('-', ' ').replace(/(?:^|\W)+\w/g, (match) => match.toUpperCase());
+  return variableName
+    .replaceAll('-', ' ')
+    .replace(/(?:^|\W)+\w/g, (match) => match.toUpperCase())
+    .replace(/(?<=[a-z])(?=[A-Z])/g, ' ');
 };
 
 export const logErrorMessage = (message: string, error?: unknown) => {

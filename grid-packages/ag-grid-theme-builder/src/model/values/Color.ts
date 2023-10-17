@@ -34,6 +34,10 @@ export class Color extends AbstractValue {
     return this.a === 0;
   }
 
+  withAlpha(alpha: number): Color {
+    return new Color(this.r, this.g, this.b, this.a * clamp(alpha, 0, 1));
+  }
+
   static parseCss(css: string): Color | null {
     try {
       const match = css.match(

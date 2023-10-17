@@ -1,4 +1,5 @@
-import { Theme } from './themes';
+import { SchemeValue } from './schemes/Scheme';
+import { Theme, alpineTheme } from './themes';
 import { mapPresentObjectValues } from './utils';
 import { VariableValues } from './values';
 
@@ -13,6 +14,26 @@ export const renderCss = ({ values, className }: { values: VariableValues; class
   }
   css += '}';
   return css;
+};
+
+export const renderSchemeCss = ({
+  schemeValues,
+  className,
+}: {
+  schemeValues: ReadonlyArray<SchemeValue>;
+  className: string;
+}) => {
+  const values: VariableValues = {};
+
+  for (const schemeValue of schemeValues) {
+    Object.assign(values, schemeValue.option.variables);
+  }
+
+  return addCssDocs({
+    parentTheme: alpineTheme,
+    themeClass: className,
+    content: renderCss({ values, className }),
+  });
 };
 
 export const addCssDocs = ({
