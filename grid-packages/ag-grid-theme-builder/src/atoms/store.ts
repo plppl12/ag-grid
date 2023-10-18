@@ -1,5 +1,7 @@
 import { Atom, WritableAtom, createStore } from 'jotai';
 import { Feature, getFeatureOrThrow } from 'model/features';
+import { Scheme, SchemeOption } from 'model/schemes/Scheme';
+import { chromeColorScheme } from 'model/schemes/chromeColorScheme';
 import { Theme, alpineDarkTheme, alpineTheme, getThemeOrThrow } from 'model/themes';
 import { logErrorMessage, mapPresentObjectValues } from 'model/utils';
 import { VariableValues, parseCssString } from 'model/values';
@@ -7,6 +9,7 @@ import { getVariableInfoOrThrow } from 'model/variableInfo';
 import { throttle } from 'throttle-debounce';
 import { enabledFeaturesAtom } from './enabledFeatures';
 import { parentThemeAtom } from './parentTheme';
+import { chromeColorAtom } from './schemes';
 import { themeLabelAtom } from './theme';
 import { allValueAtoms, valuesAtom } from './values';
 
@@ -18,6 +21,7 @@ export const initStore = () => {
       : alpineTheme;
 
   const store = createStore();
+  restoreValue('chromeColor', deserializeSchemeOption(chromeColorScheme), store, chromeColorAtom);
   restoreValue('themeLabel', deserializeString, store, themeLabelAtom);
   restoreValue('parentTheme', deserializeTheme, store, parentThemeAtom, defaultTheme);
   restoreValue('enabledFeatures', deserializeEnabledFeatures, store, enabledFeaturesAtom);
@@ -26,6 +30,7 @@ export const initStore = () => {
   const saveState = throttle(
     100,
     () => {
+      persistValue('chromeColor', serializeSchemeOption, store, chromeColorAtom);
       persistValue('themeLabel', serializeString, store, themeLabelAtom);
       persistValue('parentTheme', serializeTheme, store, parentThemeAtom);
       persistValue('enabledFeatures', serializeEnabledFeatures, store, enabledFeaturesAtom);
@@ -33,7 +38,13 @@ export const initStore = () => {
     },
     { noLeading: true },
   );
-  for (const atom of [parentThemeAtom, enabledFeaturesAtom, ...allValueAtoms]) {
+  for (const atom of [
+    chromeColorAtom,
+    themeLabelAtom,
+    parentThemeAtom,
+    enabledFeaturesAtom,
+    ...allValueAtoms,
+  ]) {
     store.sub(atom, saveState);
   }
 
@@ -104,6 +115,21 @@ const deserializeString = (value: unknown) => {
   }
   return value;
 };
+
+const serializeSchemeOption = (value: SchemeOption) => value.value;
+
+const deserializeSchemeOption =
+  (scheme: Scheme) =>
+  (value: unknown): SchemeOption => {
+    if (typeof value !== 'string') {
+      throw new Error('expected string');
+    }
+    const option = scheme.options.find((option) => option.value === value);
+    if (!option) {
+      throw new Error(`Invalid option "${value}" for scheme "${scheme.name}"`);
+    }
+    return option;
+  };
 
 const serializeEnabledFeatures = (features: ReadonlyArray<Feature>) => features.map((f) => f.name);
 
