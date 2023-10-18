@@ -1,6 +1,6 @@
 import { Atom, WritableAtom, createStore } from 'jotai';
 import { Feature, getFeatureOrThrow } from 'model/features';
-import { Scheme, SchemeOption } from 'model/schemes/Scheme';
+import { Scheme, SchemeValue } from 'model/schemes/Scheme';
 import { chromeColorScheme } from 'model/schemes/chromeColorScheme';
 import { Theme, alpineDarkTheme, alpineTheme, getThemeOrThrow } from 'model/themes';
 import { logErrorMessage, mapPresentObjectValues } from 'model/utils';
@@ -9,7 +9,7 @@ import { getVariableInfoOrThrow } from 'model/variableInfo';
 import { throttle } from 'throttle-debounce';
 import { enabledFeaturesAtom } from './enabledFeatures';
 import { parentThemeAtom } from './parentTheme';
-import { chromeColorAtom } from './schemes';
+import { getSchemeValueAtom, schemeValuesAtom } from './schemes';
 import { themeLabelAtom } from './theme';
 import { allValueAtoms, valuesAtom } from './values';
 
@@ -21,25 +21,25 @@ export const initStore = () => {
       : alpineTheme;
 
   const store = createStore();
-  restoreValue('chromeColor', deserializeSchemeOption(chromeColorScheme), store, chromeColorAtom);
   restoreValue('themeLabel', deserializeString, store, themeLabelAtom);
   restoreValue('parentTheme', deserializeTheme, store, parentThemeAtom, defaultTheme);
   restoreValue('enabledFeatures', deserializeEnabledFeatures, store, enabledFeaturesAtom);
   restoreValue('values', deserializeValues, store, valuesAtom);
+  restoreValues('schemeValues', deserializeSchemeValue(chromeColorScheme), store, getSchemeValueAtom);
 
   const saveState = throttle(
     100,
     () => {
-      persistValue('chromeColor', serializeSchemeOption, store, chromeColorAtom);
       persistValue('themeLabel', serializeString, store, themeLabelAtom);
       persistValue('parentTheme', serializeTheme, store, parentThemeAtom);
       persistValue('enabledFeatures', serializeEnabledFeatures, store, enabledFeaturesAtom);
       persistValue('values', serializeValues, store, valuesAtom);
+      persistValue('schemeValues', serializeSchemeValues, store, schemeValuesAtom);
     },
     { noLeading: true },
   );
   for (const atom of [
-    chromeColorAtom,
+    schemeValuesAtom,
     themeLabelAtom,
     parentThemeAtom,
     enabledFeaturesAtom,
@@ -96,6 +96,35 @@ const restoreValue = <T>(
   }
 };
 
+const restoreValues = <T>(
+  key: string,
+  deserialize: (value: unknown) => T,
+  store: Store,
+  getAtom: (name: string) => WritableAtom<T, [T], void>
+) => {
+  const storedString = localStorage.getItem(storageKey(key));
+  if (storedString == null) {
+    return;
+  }
+  let storedValue: unknown;
+  try {
+    storedValue = JSON.parse(storedString);
+  } catch {
+    logErrorMessage(`Failed to parse stored JSON for ${key}: ${storedString}`);
+    return;
+  }
+  if (!storedValue || typeof storedValue !== "object") {
+    return logErrorMessage(`Expected an object for ${key}, got ${storedString}`);
+  }
+  try {
+    for (const name of Object.keys(storedValue)) {
+      store.set(getAtom(name), deserialize(storedValue));
+    }
+  } catch (e) {
+    return logErrorMessage(`Failed to deserialize value for ${key}: ${storedString}`, e);
+  }
+};
+
 const storageKey = (key: string) => `theme-builder.theme-state.${key}`;
 
 const serializeTheme = (theme: Theme) => theme.class;
@@ -116,13 +145,20 @@ const deserializeString = (value: unknown) => {
   return value;
 };
 
-const serializeSchemeOption = (value: SchemeOption) => value.value;
+type SerializedSchemeValue = {optionValue: string, variables: SerializedVariableValues}
 
-const deserializeSchemeOption =
+const serializeSchemeValue = ({option, variables}: SchemeValue): SerializedSchemeValue => ({optionValue: option.value, variables:});
+
+Next up:
+1. Finish this refactor, fix compile ErrorSharp, get everything saving
+2. I'm storing variables in two places. No need to store in scheme value
+2. Use variable overrides in render
+
+const deserializeSchemeValue =
   (scheme: Scheme) =>
-  (value: unknown): SchemeOption => {
-    if (typeof value !== 'string') {
-      throw new Error('expected string');
+  (value: unknown): SchemeValue => {
+    if (!value || typeof value !== 'object') {
+      throw new Error('expected object');
     }
     const option = scheme.options.find((option) => option.value === value);
     if (!option) {
@@ -139,6 +175,8 @@ const deserializeEnabledFeatures = (featureNames: unknown): ReadonlyArray<Featur
   }
   return featureNames.map(getFeatureOrThrow);
 };
+
+type SerializedVariableValues = Record<string, string>;
 
 const serializeValues = (values: VariableValues) =>
   mapPresentObjectValues(values, (value) => value.toCss());

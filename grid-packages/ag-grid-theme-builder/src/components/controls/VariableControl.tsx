@@ -16,7 +16,7 @@ import { DisplayInput } from './inputs/DisplayInput';
 
 export type VariableControlProps = {
   variableName: string;
-  feature: Feature;
+  feature?: Feature;
 };
 
 const VariableControl = ({ variableName, feature }: VariableControlProps): JSX.Element => {
@@ -28,7 +28,7 @@ const VariableControl = ({ variableName, feature }: VariableControlProps): JSX.E
   const [error, setError] = useState<string | null>(null);
   const [shouldFocus, setShouldFocus] = useState(false);
 
-  let prefix = feature.commonVariablePrefix;
+  let prefix = feature?.commonVariablePrefix;
   if (!prefix || variableName === prefix || !variableName.startsWith(prefix)) {
     prefix = '--ag-';
   }

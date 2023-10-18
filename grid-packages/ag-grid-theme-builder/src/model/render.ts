@@ -20,13 +20,16 @@ export const renderSchemeCss = ({
   schemeValues,
   className,
 }: {
-  schemeValues: ReadonlyArray<SchemeValue>;
+  schemeValues: ReadonlyArray<SchemeValue | null>;
   className: string;
 }) => {
   const values: VariableValues = {};
 
   for (const schemeValue of schemeValues) {
-    Object.assign(values, schemeValue.option.variables);
+    Object.assign(values, schemeValue?.option.variables);
+  }
+  for (const schemeValue of schemeValues) {
+    Object.assign(values, schemeValue?.variables);
   }
 
   return addCssDocs({

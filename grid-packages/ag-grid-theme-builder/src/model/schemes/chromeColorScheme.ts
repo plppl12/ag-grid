@@ -6,6 +6,7 @@ export const chromeColorScheme = new Scheme('chromeColorScheme', [
     value: 'high-contrast',
     label: 'Alpine',
     description: 'High contrast blacks, whites and light greys',
+    variables: {},
   },
   {
     value: 'low-contrast',
