@@ -20,17 +20,13 @@ export const chromeColorScheme = new Scheme('chromeColorScheme', [
       '--ag-control-panel-background-color': Color.parseCss('#f5f7f7'),
       '--ag-border-color': Color.parseCss('#bdc3c7'),
       '--ag-odd-row-background-color': Color.parseCss('#fcfdfe'),
-      '--ag-input-border-color': Color.parseCss('#95a5a6'),
       '--ag-invalid-color': Color.parseCss('#e02525'),
-      '--ag-input-disabled-background-color': Color.parseCss('#ebebeb'),
       '--ag-secondary-foreground-color': Color.parseCss('#000')?.withAlpha(0.54),
       '--ag-disabled-foreground-color': Color.parseCss('#000')?.withAlpha(0.38),
       '--ag-subheader-toolbar-background-color': Color.parseCss('#e2e9eb')?.withAlpha(0.5),
       '--ag-row-border-color': Color.parseCss('#bdc3c7')?.withAlpha(0.58),
       '--ag-chip-background-color': Color.parseCss('#000')?.withAlpha(0.1),
-      '--ag-selected-row-background-color': Color.parseCss('#0091ea')?.withAlpha(0.28),
       '--ag-header-column-separator-color': Color.parseCss('#bdc3c7')?.withAlpha(0.5),
-      '--ag-input-disabled-border-color': Color.parseCss('#95a5a6')?.withAlpha(0.3),
     },
   },
   {
@@ -49,7 +45,6 @@ export const chromeColorScheme = new Scheme('chromeColorScheme', [
       '--ag-subheader-toolbar-background-color': Color.parseCss('#fafafa')?.withAlpha(0.5),
       '--ag-chip-background-color': Color.parseCss('#e2e2e2'),
       '--ag-control-panel-background-color': Color.parseCss('#fafafa'),
-      '--ag-side-button-selected-background-color': Color.parseCss('transparent'),
     },
   },
   {
@@ -68,7 +63,6 @@ export const chromeColorScheme = new Scheme('chromeColorScheme', [
       '--ag-subheader-toolbar-background-color': Color.parseCss('transparent'),
       '--ag-chip-background-color': Color.parseCss('#e2e2e2'),
       '--ag-control-panel-background-color': Color.parseCss('#fff'),
-      '--ag-side-button-selected-background-color': Color.parseCss('transparent'),
     },
   },
 ]);

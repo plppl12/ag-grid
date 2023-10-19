@@ -1,4 +1,4 @@
-import { SchemeValue } from './schemes/Scheme';
+import { SchemeOption } from './schemes/Scheme';
 import { Theme, alpineTheme } from './themes';
 import { mapPresentObjectValues } from './utils';
 import { VariableValues } from './values';
@@ -20,16 +20,13 @@ export const renderSchemeCss = ({
   schemeValues,
   className,
 }: {
-  schemeValues: ReadonlyArray<SchemeValue | null>;
+  schemeValues: ReadonlyArray<SchemeOption | null>;
   className: string;
 }) => {
   const values: VariableValues = {};
 
-  for (const schemeValue of schemeValues) {
-    Object.assign(values, schemeValue?.option.variables);
-  }
-  for (const schemeValue of schemeValues) {
-    Object.assign(values, schemeValue?.variables);
+  for (const option of schemeValues) {
+    Object.assign(values, option?.variables);
   }
 
   return addCssDocs({

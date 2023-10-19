@@ -6,10 +6,15 @@ export const mapObjectValues = <T, U>(
 
 export const mapPresentObjectValues = <T, U>(
   input: Record<string, T | null | undefined>,
-  mapper: (value: T) => U,
+  mapper: (value: T) => U | null | undefined,
 ): Record<string, U> =>
   Object.fromEntries(
-    Object.entries(input).flatMap(([key, value]) => (value != null ? [[key, mapper(value)]] : [])),
+    Object.entries(input).flatMap(([key, value]) => {
+      if (value == null) return [];
+      const mappedValue = mapper(value);
+      if (mappedValue == null) return [];
+      return [[key, mappedValue]];
+    }),
   );
 
 export const indexBy = <T, K extends keyof T>(

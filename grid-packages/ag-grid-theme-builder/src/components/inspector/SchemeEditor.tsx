@@ -10,7 +10,7 @@ import {
   Stack,
   Typography,
 } from '@mui/joy';
-import { useSchemeValue, useSetSchemeOption } from 'atoms/schemes';
+import { useSchemeValueAtom } from 'atoms/schemes';
 import { VariableControl } from 'components/controls/VariableControl';
 import { Scheme } from 'model/schemes/Scheme';
 import { memo } from 'react';
@@ -20,24 +20,23 @@ type SchemeEditorProps = {
 };
 
 const SchemeEditor = ({ scheme }: SchemeEditorProps) => {
-  const schemeValue = useSchemeValue(scheme);
-  const setSchemeOption = useSetSchemeOption(scheme);
-  //   const setSchemeVariable = useSetSchemeVariable(scheme);
+  const [schemeValueOrNull, setSchemeValue] = useSchemeValueAtom(scheme);
+  const schemeValue = schemeValueOrNull || scheme.options[0];
 
-  const availableVariables = Object.keys(schemeValue.option.variables);
+  const availableVariables = Object.keys(schemeValue.variables);
 
   return (
     <Accordion key={scheme.name}>
-      <AccordionSummary>
+      <AccordionSummary slotProps={{ button: { component: 'div' } }}>
         <FormControl>
           <FormLabel>{scheme.label}</FormLabel>
           <Select
             onClick={stopPropagation}
             onMouseDown={stopPropagation}
             onMouseUp={stopPropagation}
-            value={schemeValue.option}
+            value={schemeValue}
             onChange={(_, option) => {
-              setSchemeOption(option);
+              setSchemeValue(option);
             }}
           >
             {scheme.options.map((option) => (
@@ -59,7 +58,7 @@ const SchemeEditor = ({ scheme }: SchemeEditorProps) => {
       <AccordionDetails>
         <Stack>
           {availableVariables.length === 0
-            ? `${schemeValue.option.label} has no options`
+            ? `${schemeValue.label} has no options`
             : availableVariables.map((variableName) => (
                 <VariableControl key={variableName} variableName={variableName} />
               ))}

@@ -10,13 +10,6 @@ export class Scheme {
   ) {
     this.label = titleCase(name);
   }
-
-  get defaultValue(): SchemeValue {
-    return {
-      option: this.options[0],
-      variables: {},
-    };
-  }
 }
 
 export type SchemeOption = {
@@ -25,10 +18,3 @@ export type SchemeOption = {
   description: string;
   variables: VariableValues;
 };
-
-export type SchemeValue = {
-  option: SchemeOption;
-  variables: VariableValues;
-};
-
-export type SchemeValues = Record<string, SchemeValue | null | undefined>;
