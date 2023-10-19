@@ -12,7 +12,7 @@ export const Inspector = () => {
   const current = useCurrentFeature();
 
   return (
-    <Stack sx={{ position: 'relative' }}>
+    <Stack sx={{ position: 'relative', '@media': {} }}>
       <AccordionGroup sx={{ borderRadius: 10 }}>
         {allSchemes.map((scheme) => (
           <SchemeEditor key={scheme.name} scheme={scheme} />

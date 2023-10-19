@@ -26,6 +26,8 @@ const SchemeEditor = ({ scheme }: SchemeEditorProps) => {
   const availableVariables = Object.keys(schemeValue.variables);
 
   return (
+    // TODO use react-collapse instead of accordion, because of the need to put
+    // a button within the summary
     <Accordion key={scheme.name}>
       <AccordionSummary slotProps={{ button: { component: 'div' } }}>
         <FormControl>

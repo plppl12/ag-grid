@@ -17,17 +17,28 @@ export const renderCss = ({ values, className }: { values: VariableValues; class
 };
 
 export const renderSchemeCss = ({
+  variableValues,
   schemeValues,
   className,
 }: {
+  variableValues: VariableValues;
   schemeValues: ReadonlyArray<SchemeOption | null>;
   className: string;
 }) => {
   const values: VariableValues = {};
+  for (const option of schemeValues) {
+    Object.assign(values, option?.variables);
+  }
+  for (const variableName in values) {
+    if (variableValues[variableName]) {
+      values[variableName] = variableValues[variableName];
+    }
+  }
 
   for (const option of schemeValues) {
     Object.assign(values, option?.variables);
   }
+  Object.assign(values, variableValues);
 
   return addCssDocs({
     parentTheme: alpineTheme,
