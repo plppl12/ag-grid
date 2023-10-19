@@ -38,6 +38,12 @@ export class Color extends AbstractValue {
     return new Color(this.r, this.g, this.b, this.a * clamp(alpha, 0, 1));
   }
 
+  withTemperature(percent: number): Color {
+    const amount = 1 - Math.abs(this.r - 0.5) * 2;
+    const newR = this.r + this.r * percent * -0.01 * amount;
+    return new Color(newR, this.g, this.b, this.a);
+  }
+
   static parseCss(css: string): Color | null {
     try {
       const match = css.match(

@@ -1,7 +1,7 @@
 import { Color } from 'model/values/Color';
 import { Scheme } from './Scheme';
 
-export const chromeColorScheme = new Scheme('chromeColorScheme', [
+export const chromeColorScheme = new Scheme('chromeColor', [
   {
     value: 'high-contrast',
     label: 'Alpine',
@@ -16,12 +16,12 @@ export const chromeColorScheme = new Scheme('chromeColorScheme', [
       '--ag-foreground-color': Color.parseCss('#000'),
       '--ag-background-color': Color.parseCss('#fff'),
       '--ag-header-background-color': Color.parseCss('#f5f7f7'),
+      '--ag-secondary-foreground-color': Color.parseCss('#000')?.withAlpha(0.54),
       '--ag-subheader-background-color': Color.parseCss('#e2e9eb'),
       '--ag-control-panel-background-color': Color.parseCss('#f5f7f7'),
       '--ag-border-color': Color.parseCss('#bdc3c7'),
       '--ag-odd-row-background-color': Color.parseCss('#fcfdfe'),
       '--ag-invalid-color': Color.parseCss('#e02525'),
-      '--ag-secondary-foreground-color': Color.parseCss('#000')?.withAlpha(0.54),
       '--ag-disabled-foreground-color': Color.parseCss('#000')?.withAlpha(0.38),
       '--ag-subheader-toolbar-background-color': Color.parseCss('#e2e9eb')?.withAlpha(0.5),
       '--ag-row-border-color': Color.parseCss('#bdc3c7')?.withAlpha(0.58),

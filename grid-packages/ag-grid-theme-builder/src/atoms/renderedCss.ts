@@ -12,7 +12,7 @@ const renderedCssAtom = atom((get) => {
   return renderSchemeCss({
     className,
     variableValues,
-    schemeValues: Object.values(schemeValues),
+    schemeValues,
   });
 });
 
