@@ -14,7 +14,6 @@ import { memo, useLayoutEffect, useState } from 'react';
 import { Tooltip } from 'react-tooltip';
 import { DownloadDialog } from './DownloadDialog';
 import { GridPreview } from './GridPreview';
-import { ParentThemeMenu } from './ParentThemeMenu';
 
 export const RootContainer = memo(() => {
   const parentTheme = useParentTheme();
@@ -40,7 +39,6 @@ export const RootContainer = memo(() => {
         {hasRenderedStyles && (
           <>
             <TopRow>
-              <ParentThemeMenu />
               <Button
                 startDecorator={<Delete />}
                 onClick={() => {
@@ -101,7 +99,9 @@ const DefaultsElement = styled('div')`
 
 const TopRow = styled('div')`
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: end;
+  gap: 20px;
 `;
 
 const Columns = styled('div')`
