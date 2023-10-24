@@ -33,4 +33,12 @@ export const parseCssString = (info: VariableInfo, css: string): Value | null =>
   }
 };
 
-export type VariableValues = Record<string, Value | null | undefined>;
+export type VariableValues = Record<string, Value | LiteralValue | null | undefined>;
+
+// TODO remove this hack
+export class LiteralValue {
+  constructor(readonly css: string) {}
+  toCss(): string {
+    return this.css;
+  }
+}

@@ -29,7 +29,7 @@ const SchemeEditor = ({ scheme }: SchemeEditorProps) => {
   return (
     // TODO use react-collapse instead of accordion, because of the need to put
     // a button within the summary
-    <Accordion key={scheme.name}>
+    <Accordion key={scheme.name} sx={{ padding: '10px 0' }}>
       <AccordionSummary slotProps={{ button: { component: 'div' } }}>
         <FormControl>
           <FormLabel>{scheme.label}</FormLabel>
@@ -51,7 +51,9 @@ const SchemeEditor = ({ scheme }: SchemeEditorProps) => {
               >
                 <Box sx={{ display: 'block' }}>
                   {optionLabel(option)}
-                  {option.description && <Typography level="body-sm">{option.description}</Typography>}
+                  {option.description && (
+                    <Typography level="body-sm">{option.description}</Typography>
+                  )}
                 </Box>
               </Option>
             ))}
@@ -71,7 +73,7 @@ const SchemeEditor = ({ scheme }: SchemeEditorProps) => {
   );
 };
 
-const optionLabel = ({label, value}: SchemeOption) => label || titleCase(value);
+const optionLabel = ({ label, value }: SchemeOption) => label || titleCase(value);
 
 const SchemeEditorWrapped = memo(SchemeEditor);
 

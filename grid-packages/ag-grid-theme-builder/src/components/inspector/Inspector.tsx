@@ -20,10 +20,13 @@ export const Inspector = () => {
       </AccordionGroup>
 
       <Divider />
+
       <EnableFeatureButton />
+
       {enabled.map((feature) => (
         <InspectFeatureButton key={feature.name} feature={feature} />
       ))}
+
       <FeatureEditorPanel feature={current} />
     </Stack>
   );
