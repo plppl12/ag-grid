@@ -17,8 +17,8 @@ export class Scheme {
 
 export type SchemeOption = {
   value: string;
-  label: string;
-  description: string;
+  label?: string;
+  description?: string;
   variables: VariableValues;
   mutateValues?: (values: VariableValues) => void;
 };

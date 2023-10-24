@@ -7,8 +7,7 @@ class ColorTemperatureScheme extends Scheme {
   constructor() {
     super('colorTemperature', [
       {
-        value: 'veryWarm',
-        label: 'Very Warm',
+        value: 'very-warm',
         description: '',
         variables: {
           '--color-temperature-adjust': new Dimension(-20, '%'),
@@ -16,7 +15,6 @@ class ColorTemperatureScheme extends Scheme {
       },
       {
         value: 'warm',
-        label: 'Warm',
         description: '',
         variables: {
           '--color-temperature-adjust': new Dimension(-10, '%'),
@@ -24,13 +22,11 @@ class ColorTemperatureScheme extends Scheme {
       },
       {
         value: 'neutral',
-        label: 'Neutral',
         description: '',
         variables: {},
       },
       {
         value: 'cold',
-        label: 'Cold',
         description: '',
         variables: {
           '--color-temperature-adjust': new Dimension(10, '%'),
@@ -38,7 +34,6 @@ class ColorTemperatureScheme extends Scheme {
       },
       {
         value: 'veryCold',
-        label: 'Very Cold',
         description: '',
         variables: {
           '--color-temperature-adjust': new Dimension(20, '%'),

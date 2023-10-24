@@ -2,8 +2,13 @@ import { indexBy } from 'model/utils';
 import { Scheme } from './Scheme';
 import { chromeColorScheme } from './chromeColorScheme';
 import { colorTemperatureScheme } from './colorTemperatureScheme';
+import { compactnessScheme } from './compactnessScheme';
 
-export const allSchemes: ReadonlyArray<Scheme> = [chromeColorScheme, colorTemperatureScheme];
+export const allSchemes: ReadonlyArray<Scheme> = [
+  chromeColorScheme,
+  colorTemperatureScheme,
+  compactnessScheme,
+];
 
 const schemesByName = indexBy(allSchemes, 'name');
 

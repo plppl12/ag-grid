@@ -3,11 +3,13 @@ import styled from '@emotion/styled';
 import { useCurrentFeature } from 'atoms/currentFeature';
 import { useEnabledFeatures } from 'atoms/enabledFeatures';
 import { useParentTheme } from 'atoms/parentTheme';
+import { useSchemeValueAtom } from 'atoms/schemes';
 import { useThemeClass } from 'atoms/theme';
 import { useVariableValues } from 'atoms/values';
 import { withErrorBoundary } from 'components/ErrorBoundary';
 import { getColumnDefs, getGroupColumnDefs, getRowData } from 'model/exampleData';
 import { Feature } from 'model/features';
+import { compactnessScheme } from 'model/schemes/compactnessScheme';
 import { isNotNull } from 'model/utils';
 import { memo, useEffect, useRef, useState } from 'react';
 
@@ -31,11 +33,15 @@ const GridPreview = () => {
 
   const featureStateRef = useRef<Record<string, unknown>>({});
 
+  const [compactness] = useSchemeValueAtom(compactnessScheme);
+
   const rebuildKey = variablesRequiringRebuild
     .map((variableName) => values[variableName])
     .filter(isNotNull)
     .map((value) => value.toCss())
     .concat(parentTheme.class)
+    // TODO remove this hack of rebuilding when we change the compactness - we should be using the changed variables of the scheme
+    .concat(compactness?.value || '')
     .concat(features.map((f) => f.name))
     .join(';');
 

@@ -12,7 +12,8 @@ import {
 } from '@mui/joy';
 import { useSchemeValueAtom } from 'atoms/schemes';
 import { VariableControl } from 'components/controls/VariableControl';
-import { Scheme } from 'model/schemes/Scheme';
+import { Scheme, SchemeOption } from 'model/schemes/Scheme';
+import { titleCase } from 'model/utils';
 import { memo } from 'react';
 
 type SchemeEditorProps = {
@@ -46,11 +47,11 @@ const SchemeEditor = ({ scheme }: SchemeEditorProps) => {
                 onClick={stopPropagation}
                 key={option.value}
                 value={option}
-                label={option.label}
+                label={optionLabel(option)}
               >
                 <Box sx={{ display: 'block' }}>
-                  {option.label}
-                  <Typography level="body-sm">{option.description}</Typography>
+                  {optionLabel(option)}
+                  {option.description && <Typography level="body-sm">{option.description}</Typography>}
                 </Box>
               </Option>
             ))}
@@ -69,6 +70,8 @@ const SchemeEditor = ({ scheme }: SchemeEditorProps) => {
     </Accordion>
   );
 };
+
+const optionLabel = ({label, value}: SchemeOption) => label || titleCase(value);
 
 const SchemeEditorWrapped = memo(SchemeEditor);
 
