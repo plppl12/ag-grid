@@ -10,33 +10,35 @@ class ColorTemperatureScheme extends Scheme {
         value: 'very-warm',
         description: '',
         variables: {
-          '--color-temperature-adjust': new Dimension(-20, '%'),
+          '--color-temperature-adjust': new Dimension(30, '%'),
         },
       },
       {
         value: 'warm',
         description: '',
         variables: {
-          '--color-temperature-adjust': new Dimension(-10, '%'),
+          '--color-temperature-adjust': new Dimension(40, '%'),
         },
       },
       {
         value: 'neutral',
         description: '',
-        variables: {},
+        variables: {
+          '--color-temperature-adjust': new Dimension(50, '%'),
+        },
       },
       {
         value: 'cold',
         description: '',
         variables: {
-          '--color-temperature-adjust': new Dimension(10, '%'),
+          '--color-temperature-adjust': new Dimension(60, '%'),
         },
       },
       {
         value: 'veryCold',
         description: '',
         variables: {
-          '--color-temperature-adjust': new Dimension(20, '%'),
+          '--color-temperature-adjust': new Dimension(70, '%'),
         },
       },
     ]);

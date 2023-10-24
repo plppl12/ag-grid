@@ -40,7 +40,7 @@ export class Color extends AbstractValue {
 
   withTemperature(percent: number): Color {
     const amount = 1 - Math.abs(this.r - 0.5) * 2;
-    const newR = this.r + this.r * percent * -0.01 * amount;
+    const newR = this.r + this.r * (percent - 50) * -0.01 * amount;
     return new Color(newR, this.g, this.b, this.a);
   }
 

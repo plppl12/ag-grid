@@ -165,6 +165,8 @@ const variables: Record<string, VariableInfo> = {
   ...Object.fromEntries(colorVariables.map((variableName) => [variableName, { type: 'color' }])),
 
   '--ag-material-primary-color': { type: 'color', specificToTheme: 'ag-theme-material' },
+
+  '--color-temperature-adjust': { type: 'dimension', min: 0, max: 100, step: 5 },
 };
 
 export const allVariableNames = Object.keys(variables);
