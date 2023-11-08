@@ -31,7 +31,7 @@ const HeaderRowComp = (props: {ctrl: HeaderRowCtrl}) => {
             setHeight: height => setHeight(height),
             setTop: top => setTop(top),
             setHeaderCtrls: (ctrls, forceOrder, afterScroll) =>{
-                agFlushSync(afterScroll, () => {
+                agFlushSync(afterScroll && false, () => {
                     setCellCtrls(prev => getNextValueIfDifferent(prev, ctrls, forceOrder)!)
                 });
             },

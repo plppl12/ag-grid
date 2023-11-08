@@ -92,7 +92,7 @@ const RowComp = (params: { rowCtrl: RowCtrl, containerType: RowContainerType }) 
             // if we don't maintain the order, then cols will be ripped out and into the dom
             // when cols reordered, which would stop the CSS transitions from working
             setCellCtrls: (next, useFlushSync) => {
-                agFlushSync(useFlushSync, () => {
+                agFlushSync(useFlushSync && false, () => {
                     setCellCtrls(prev => getNextValueIfDifferent(prev, next, domOrderRef.current));
                 });
             },

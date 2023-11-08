@@ -56,7 +56,7 @@ const RowContainerComp = (params: {name: RowContainerName}) => {
         if (areElementsReady()) {
 
             const updateRowCtrlsOrdered = (useFlushSync: boolean) => {
-                agFlushSync(useFlushSync, () => {
+                agFlushSync(useFlushSync && false, () => {
                     setRowCtrlsOrdered(prev => getNextValueIfDifferent(prev, rowCtrlsRef.current, domOrderRef.current)!);
                 });
             }
