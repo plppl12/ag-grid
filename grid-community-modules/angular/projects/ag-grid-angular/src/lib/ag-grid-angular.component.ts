@@ -179,7 +179,8 @@ import { AngularFrameworkOverrides } from "./angularFrameworkOverrides";
 import { AngularFrameworkComponentWrapper } from "./angularFrameworkComponentWrapper";
 
 @Component({
-    selector: 'ag-grid-angular',
+    selector: 'ag-grid-angular,ag-grid',
+    standalone: true,
     template: '',
     providers: [
         AngularFrameworkOverrides,
