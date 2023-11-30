@@ -11,23 +11,36 @@ const ag = dsl.ag as dsl.SelectorDslFactory<string>;
 test(`Render nested rules`, () => {
   const rules = el.root({
     content: literal('base'),
-    ' ': ag.a({
+  });
+  expect(renderRules(rules)).toMatchInlineSnapshot(`
+    "root {
+    	content: base;
+    }
+    "
+  `);
+});
+
+test(`Render nested rules`, () => {
+  const rules = el.root({
+    content: literal('base'),
+
+    containing: ag.a({
       content: literal('loose'),
 
-      ' ': ag.b({
+      containing: ag.b({
         content: literal('loose loose'),
       }),
-      '&': ag.c({
+      and: ag.c({
         content: literal('loose tight'),
       }),
     }),
-    '&': ag.d({
+    and: ag.d({
       content: literal('tight'),
 
-      ' ': ag.e({
+      containing: ag.e({
         content: literal('tight loose'),
       }),
-      '&': ag.f({
+      and: ag.f({
         content: literal('tight tight'),
       }),
     }),
@@ -52,7 +65,7 @@ test(`Render nested rules`, () => {
     	content: tight loose;
     }
     root.ag-d.ag-f {
-    	content: tight tight ;
+    	content: tight tight;
     }
     "
   `);

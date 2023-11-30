@@ -28,11 +28,10 @@ type SelectorDslProperties = {
   [K in PseudoClass | GridClassName]: SelectorDsl;
 };
 
-const nestedRuleProperty = [' ', '&', '>'] as const;
-type NestedRuleProperty = (typeof nestedRuleProperty)[number];
-
-type DeclarationsAndNestedRules = CssProperties &
-  Partial<Record<NestedRuleProperty, StyleRule[] | StyleRule[][]>>;
+type DeclarationsAndNestedRules = CssProperties & {
+  containing?: StyleRule[] | StyleRule[][];
+  and?: StyleRule[] | StyleRule[][];
+};
 
 const propertyToSelector = new Map<string, string>(
   pseudoClasses.map((property) => [property, renderPseudoClass(property)]),
@@ -66,11 +65,7 @@ const selectorDsl = (isElement: boolean, initialSelectors?: string[] | null): Se
   };
 
   const call: SelectorDslCall = (properties) =>
-    flattenStyleRules({
-      type: 'style',
-      selectors: selector.selectors,
-      properties,
-    });
+    flattenDeclarationsAndNestedRules(properties, selector.selectors);
 
   const dsl: SelectorDsl = new Proxy(call as any, {
     get: (_, prop) => {
@@ -101,9 +96,35 @@ export const pseudo = selectorDslFactory<PseudoClass>(true);
 export const any = (...selectors: ReadonlyArray<Selector>) =>
   selectorDsl(false, selectors.map((s) => s.selectors).flat());
 
-const flattenStyleRules = (parent: StyleRule): StyleRule[] => [
-  parent,
-  ...children.flat().map((child): StyleRule => {
+const flattenDeclarationsAndNestedRules = (
+  declarations: DeclarationsAndNestedRules,
+  parentSelectors: string[],
+): StyleRule[] => {
+  const { containing, and } = declarations;
+  declarations = { ...declarations };
+  delete declarations.containing;
+  delete declarations.and;
+  const parentRule: StyleRule = {
+    type: 'style',
+    properties: declarations,
+    selectors: parentSelectors,
+  };
+  let rules = [parentRule];
+  if (containing) {
+    rules = [...rules, ...flattenStyleRules(parentRule, containing, false)];
+  }
+  if (and) {
+    rules = [...rules, ...flattenStyleRules(parentRule, and, true)];
+  }
+  return rules;
+};
+
+const flattenStyleRules = (
+  parent: StyleRule,
+  children: StyleRule[] | StyleRule[][],
+  tightJoin: boolean,
+): StyleRule[] =>
+  children.flat().map((child): StyleRule => {
     const separator = tightJoin ? '' : ' ';
     return {
       type: 'style',
@@ -112,5 +133,4 @@ const flattenStyleRules = (parent: StyleRule): StyleRule[] => [
         child.selectors.map((childSelector) => parentSelector + separator + childSelector),
       ),
     };
-  }),
-];
+  });
