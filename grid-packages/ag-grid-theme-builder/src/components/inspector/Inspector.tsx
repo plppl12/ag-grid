@@ -1,58 +1,30 @@
-import styled from '@emotion/styled';
-import {
-  useAddEnabledFeature,
-  useEnabledFeatures,
-  useRemoveEnabledFeature,
-} from 'atoms/enabledFeatures';
-import { allFeatures, getFeatureOrThrow } from 'model/features';
+import { AccordionGroup, Divider, Stack } from '@mui/joy';
+import { useCurrentFeature } from 'atoms/currentFeature';
+import { useEnabledFeatures } from 'atoms/enabledFeatures';
+import { EnableFeatureButton } from 'components/inspector/EnableFeatureButton';
+import { FeatureEditorPanel } from 'components/inspector/FeatureEditorPanel';
+import { allSchemes } from 'model/schemes';
+import { InspectFeatureButton } from './InspectFeatureButton';
+import { SchemeEditor } from './SchemeEditor';
 
 export const Inspector = () => {
   const enabled = useEnabledFeatures();
-  const addEnabledFeature = useAddEnabledFeature();
-  const removeEnabledFeature = useRemoveEnabledFeature();
-  const inspectable = allFeatures.filter((f) => !f.alwaysEnabled);
+  const current = useCurrentFeature();
 
   return (
-    <Container>
-      {inspectable.map((feature) => (
-        <div key={feature.name}>
-          <input
-            type="checkbox"
-            value={feature.name}
-            checked={enabled.includes(feature)}
-            onChange={(e) => {
-              const feature = getFeatureOrThrow(e.target.value);
-              const enabled = e.target.checked;
-              if (enabled) {
-                addEnabledFeature(feature);
-              } else {
-                removeEnabledFeature(feature);
-              }
-            }}
-          />{' '}
-          {feature.displayName}
-        </div>
-      ))}
-      {/* {inline.map((feature) => (
-        <FeatureEditor key={feature.name} feature={feature} />
-      ))}
+    <Stack sx={{ position: 'relative', '@media': {} }}>
+      <AccordionGroup sx={{ borderRadius: 10 }}>
+        {allSchemes.map((scheme) => (
+          <SchemeEditor key={scheme.name} scheme={scheme} />
+        ))}
+      </AccordionGroup>
+
       <Divider />
       <EnableFeatureButton />
-      {inspectable.map((feature) => (
+      {enabled.map((feature) => (
         <InspectFeatureButton key={feature.name} feature={feature} />
       ))}
-      <FeatureEditorPanel feature={current} /> */}
-    </Container>
+      <FeatureEditorPanel feature={current} />
+    </Stack>
   );
 };
-
-const Container = styled('div')`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-const Divider = styled('div')`
-  border-bottom: solid 1px var(--border-color);
-`;

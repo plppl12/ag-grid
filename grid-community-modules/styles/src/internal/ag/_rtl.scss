@@ -105,7 +105,7 @@
             $rtl-rules: map.merge($rtl-rules, (property: right));
         }
         @else {
-            @error "-get-rtl-rules doesn't know how to process the \"#{$property}\" property"
+            @error "-get-rtl-rules doesn't know how to process the \"#{$property}\" property";
         }
     }
     @return $rtl-rules;

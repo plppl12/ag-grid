@@ -19,11 +19,13 @@ export const rowSelectionFeature: Feature = {
     {
       checkboxSelection: (params) => {
         // we put checkbox on the name if we are not doing grouping
-        return params.api.getRowGroupColumns().length === 0;
+        // TODO remove use of column api after merging spike branch
+        return params.columnApi.getRowGroupColumns().length === 0;
       },
       headerCheckboxSelection: (params) => {
         // we put checkbox on the name if we are not doing grouping
-        return params.api.getRowGroupColumns().length === 0;
+        // TODO remove use of column api after merging spike branch
+        return params.columnApi.getRowGroupColumns().length === 0;
       },
     },
   ],

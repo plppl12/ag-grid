@@ -1,7 +1,6 @@
 import { ColDef, GridApi, GridOptions, Module, ModuleRegistry } from '@ag-grid-community/core';
 import { ComponentType } from 'react';
 import { indexBy } from '../utils';
-import { advancedFilterFeature } from './advancedFilter';
 import { bordersFeature } from './borders';
 import { checkboxesFeature } from './checkboxes';
 import { columnGroupsFeature } from './columnGroups';
@@ -26,7 +25,7 @@ import { toggleButtonsFeature } from './toggleButtons';
 export type Feature = {
   readonly name: string;
   readonly displayName: string;
-  readonly variableNames: ReadonlyArray<string>;
+  readonly variableNames: readonly string[];
   readonly commonVariablePrefix?: string;
   readonly alwaysEnabled?: boolean;
   readonly gridOptions?: GridOptions;
@@ -34,7 +33,7 @@ export type Feature = {
   readonly columnDefs?: ColDef[];
   readonly addColumnGroups?: boolean;
   readonly previewComponent?: ComponentType;
-  readonly modules?: ReadonlyArray<Module>;
+  readonly modules?: readonly Module[];
   // put the grid into a state where this feature is visible so that it can be styled
   show?: (api: GridApi) => unknown;
   // undo `show` if necessary
@@ -44,8 +43,9 @@ export type Feature = {
   restoreState?: (api: GridApi, state: unknown) => void;
 };
 
-export const allFeatures: ReadonlyArray<Feature> = [
-  advancedFilterFeature,
+export const allFeatures: readonly Feature[] = [
+  coreFeature,
+  rangeSelectionFeature,
   bordersFeature,
   checkboxesFeature,
   columnGroupsFeature,

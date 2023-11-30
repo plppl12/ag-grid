@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
-import { Value } from 'model/values';
+import { ColorExpression, Expression } from 'design-system/css-in-js';
 
 export type DefaultValueProps = {
-  value: Value | null;
+  value: Expression | null;
 };
 
 export const DefaultValue = ({ value }: DefaultValueProps) => {
@@ -10,17 +10,17 @@ export const DefaultValue = ({ value }: DefaultValueProps) => {
     return <NoDefault />;
   }
 
-  if (value.type === 'color') {
-    return value.isTransparent() ? (
+  if (value instanceof ColorExpression) {
+    return value.a === 0 ? (
       <>(transparent)</>
     ) : (
       <ColorSwatchBackground>
-        <ColorSwatch style={{ backgroundColor: value.toCss() }} />
+        <ColorSwatch style={{ backgroundColor: value.css }} />
       </ColorSwatchBackground>
     );
   }
 
-  return <span>{value.describe()}</span>;
+  return <span>{value.css}</span>;
 };
 
 const NoDefault = styled('div')`

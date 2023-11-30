@@ -13,7 +13,8 @@ export const InspectFeatureButton = ({ feature }: InspectFeatureButtonProps) => 
 };
 
 const Button = styled('button')`
-  background-color: var(--default-background-color);
+  // TODO remove !important once I've removed design system
+  background-color: var(--default-background-color) !important;
   --button-text-color: var(--text-color);
   font-weight: bold;
   text-align: left;

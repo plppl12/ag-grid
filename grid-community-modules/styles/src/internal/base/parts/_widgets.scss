@@ -180,7 +180,7 @@
     }
 
     .ag-disabled-group-title-bar, .ag-disabled-group-container {
-        opacity: 0.5
+        opacity: 0.5;
     }
 
     .group-item {
@@ -566,7 +566,7 @@
     .ag-column-select-column-group-drag-handle,
     .ag-column-select-column-label {
         &:not(:last-child) {
-            @include ag.unthemed-rtl((margin-right: var(--ag-widget-horizontal-spacing)))
+            @include ag.unthemed-rtl((margin-right: var(--ag-widget-horizontal-spacing)));
         }
     }
 

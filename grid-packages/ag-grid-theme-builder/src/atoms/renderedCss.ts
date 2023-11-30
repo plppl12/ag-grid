@@ -1,13 +1,19 @@
 import { atom, useAtomValue } from 'jotai';
-import { renderCss } from 'model/render';
-import { parentThemeAtom } from './parentTheme';
+import { renderSchemeCss } from 'model/render';
+import { schemeValuesAtom } from './schemes';
+import { themeClassAtom } from './theme';
 import { valuesAtom } from './values';
 
-const renderedCss = atom((get) => {
-  const theme = get(parentThemeAtom);
-  const values = get(valuesAtom);
+const renderedCssAtom = atom((get) => {
+  const className = get(themeClassAtom);
+  const schemeValues = get(schemeValuesAtom);
+  const variableValues = get(valuesAtom);
 
-  return renderCss({ themeName: theme.name, values });
+  return renderSchemeCss({
+    className,
+    variableValues,
+    schemeValues,
+  });
 });
 
-export const useRenderedCss = () => useAtomValue(renderedCss);
+export const useRenderedCss = () => useAtomValue(renderedCssAtom);

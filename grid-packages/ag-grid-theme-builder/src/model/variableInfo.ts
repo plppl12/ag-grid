@@ -1,4 +1,4 @@
-import { ValueType } from './values';
+import { ColorExpression, DimensionExpression, Expression } from 'design-system/css-in-js';
 
 export type CommonVariableInfo = {
   specificToTheme?: string;
@@ -36,6 +36,16 @@ export type VariableInfoByType = {
   border: BorderVariableInfo;
   borderStyle: BorderStyleVariableInfo;
   display: DisplayVariableInfo;
+};
+
+export type ValueType = keyof VariableInfoByType;
+
+export type ValueByType = {
+  dimension: DimensionExpression;
+  color: ColorExpression;
+  border: Expression;
+  borderStyle: Expression;
+  display: Expression;
 };
 
 export type VariableInfo = VariableInfoByType[ValueType];

@@ -32,6 +32,7 @@
         "**/.git": true,
         "**/.DS_Store": true,
         "**/node_modules": true,
+        "**/_css-content.scss": true,
         "packages": true
     },
     "[scss]": {

@@ -139,7 +139,7 @@
     // Default the content position to relative so that it doesn't
     // appear under the background
     .ag-row-hover.ag-full-width-row.ag-row-group > * {
-        position: relative
+        position: relative;
     }
 
     .ag-row-hover.ag-row-selected::before {
@@ -252,7 +252,7 @@
 
     .ag-icon-loading {
         animation-name: spin;
-        animation-duration: 1000ms;
+        animation-duration: 1s;
         animation-iteration-count: infinite;
         animation-timing-function: linear;
     }

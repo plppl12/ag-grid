@@ -1,5 +1,4 @@
-import { ValueByType, ValueType } from 'model/values';
-import { VariableInfoByType } from 'model/variableInfo';
+import { ValueByType, ValueType, VariableInfoByType } from 'model/variableInfo';
 import { FC } from 'react';
 
 export type InputProps<T extends ValueType> = {

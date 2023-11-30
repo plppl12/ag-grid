@@ -4,11 +4,12 @@
     // /**
     //  ****************************
     //  * Generic Styles
-    //  ****************************
+    //    ****************************
     // */
-    // if we don't do this, then the width and height of the grid would be ignored,
-    // as there is no default display for the element ag-grid-a2 (as it's not a natural dom element)
-    ag-grid, ag-grid-angular, ag-grid-ng2, ag-grid-polymer, ag-grid-aurelia  {
+    
+    // if we don't do this, then the width and height of the grid would be
+    // ignored, as there is no default display for the these custom elements
+    ag-grid, ag-grid-angular  {
         display: block;
     }
 
@@ -125,7 +126,7 @@
         font-weight: bold;
         font-family: Impact, sans-serif;
         font-size: 19px;
-        padding-left: 0.7rem;
+        padding: 0 11px;
     }
 
     .ag-root-wrapper-body {
@@ -187,6 +188,7 @@
 
     .ag-body-viewport {
         display: flex;
+        -webkit-overflow-scrolling: touch;
 
         &.ag-layout-normal {
             overflow-y: auto;
@@ -314,7 +316,7 @@
             bottom: 0;
             &.ag-apple-scrollbar {
                 opacity: 0;
-                transition: opacity 400ms;
+                transition: opacity 0.4s;
                 visibility: hidden;
                 &.ag-scrollbar-scrolling, &.ag-scrollbar-active {
                     visibility: visible;
@@ -385,11 +387,11 @@
 
     .ag-header-row {
         position: absolute;
-    }
-
-    .ag-header-row:not(.ag-header-row-column-group) {
-        // so when floating filters are height 0px, the contents don't spill out
-        overflow: hidden;
+        
+        &:not(.ag-header-row-column-group) {
+            // so when floating filters are height 0px, the contents don't spill out
+            overflow: hidden;
+        }
     }
 
     .ag-header.ag-header-allow-overflow .ag-header-row {
@@ -469,10 +471,8 @@
 
         cursor: ew-resize;
 
-        // unpinned headers get their rezise handle on the right in normal mode and left in RTL mode
-        @include ag.unthemed-rtl((
-            right: -4px
-        ));
+        // unpinned headers get their resize handle on the right in normal mode and left in RTL mode
+        @include ag.unthemed-rtl((right: -4px));
     }
 
     .ag-pinned-left-header .ag-header-cell-resize {
@@ -693,11 +693,6 @@
 
     .ag-row-dragging {
         z-index: 2;
-    }
-
-    .ag-stub-cell {
-        display: flex;
-        align-items: center;
     }
 
     // /**
@@ -1147,7 +1142,7 @@
     // */
 
     // this is used by the animateShowChangeCellRenderer. it is arguable that this belongs in the themes,
-    // however it is not tied to color, only placement and visiblity, which is behaviour and not style,
+    // however it is not tied to color, only placement and visibility, which is behaviour and not style,
     // thus belongs here, besides it doesn't change wih the themes
     .ag-value-slide-out {
         margin-right: 5px;
@@ -1527,8 +1522,7 @@
         text-overflow: ellipsis;
     }
 
-    .ag-group-title-bar
-    .ag-group-title {
+    .ag-group-title-bar .ag-group-title {
         cursor: default;
     }
 
@@ -1571,12 +1565,6 @@
 
     .ag-group-item-alignment-end .ag-group-item {
         align-items: flex-end;
-    }
-
-    .ag-toggle-button-icon {
-        transition: right 0.3s;
-        position: absolute;
-        top: -1px;
     }
 
     .ag-input-field, .ag-select {
@@ -1703,12 +1691,7 @@
 
     .ag-spectrum-hue {
         cursor: default;
-        background: linear-gradient(to left,
-            #ff0000 3%, #ffff00 17%,
-            #00ff00 33%, #00ffff 50%,
-            #0000ff 67%, #ff00ff 83%,
-            #ff0000 100%
-        );
+        background: linear-gradient(to left, #ff0000 3%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%);
     }
 
     .ag-spectrum-alpha {
@@ -1744,19 +1727,20 @@
     }
 
     // Default values for themes that do not use the mixins
-    @for $i from 1 to 10 {
-        .ag-column-select-indent-#{$i} {
-            @include ag.unthemed-rtl(( padding-left: $i * 20px ));
-        }
+    // TODO restore this using calc and a variable
+    // @for $i from 1 to 10 {
+    //     .ag-column-select-indent-#{$i} {
+    //         @include ag.unthemed-rtl(( padding-left: $i * 20px ));
+    //     }
 
-        .ag-set-filter-indent-#{$i} {
-            @include ag.unthemed-rtl(( padding-left: $i * 20px ));
-        }
+    //     .ag-set-filter-indent-#{$i} {
+    //         @include ag.unthemed-rtl(( padding-left: $i * 20px ));
+    //     }
 
-        .ag-row-group-indent-#{$i} {
-            @include ag.unthemed-rtl(( padding-left: $i * 20px ));
-        }
-    }
+    //     .ag-row-group-indent-#{$i} {
+    //         @include ag.unthemed-rtl(( padding-left: $i * 20px ));
+    //     }
+    // }
 
     .ag-ltr {
         direction: ltr;
@@ -1777,9 +1761,5 @@
             display: block;
             transform: rotate(180deg);
         }
-    }
-
-    .ag-body .ag-body-viewport {
-        -webkit-overflow-scrolling: touch;
     }
 }

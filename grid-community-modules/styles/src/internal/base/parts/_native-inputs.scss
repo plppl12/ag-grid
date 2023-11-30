@@ -117,7 +117,7 @@
             width: var(--ag-toggle-button-height);
             background-color: var(--ag-toggle-button-switch-background-color);
             border-radius: 100%;
-            transition: left 100ms;
+            transition: left 0.1s;
             border: var(--ag-toggle-button-border-width) solid;
             border-color: var(--ag-toggle-button-switch-border-color);
         }
@@ -241,7 +241,7 @@
 
 @mixin -ag-range-track {
     @if meta.mixin-exists(ag-range-track) {
-        @include ag.range-track
+        @include ag.range-track;
     }
     @else {
         margin: 0;
@@ -256,13 +256,13 @@
 
 @mixin -ag-focus-range-track {
     @if meta.mixin-exists(ag-focus-range-track) {
-        @include ag.focus-range-track
+        @include ag.focus-range-track;
     }
 }
 
 @mixin -ag-active-range-track {
     @if meta.mixin-exists(ag-focus-range-track) {
-        @include ag.focus-range-track
+        @include ag.focus-range-track;
     }
     @else {
         background-color: var(--ag-input-focus-border-color);
@@ -271,7 +271,7 @@
 
 @mixin -ag-range-thumb {
     @if meta.mixin-exists(ag-range-thumb) {
-        @include ag.range-thumb
+        @include ag.range-thumb;
     }
     @else {
         margin: 0;
@@ -289,7 +289,7 @@
 @mixin -ag-focus-range-thumb {
     box-shadow: var(--ag-input-focus-box-shadow);
     @if meta.mixin-exists(ag-focus-range-thumb) {
-        @include ag.focus-range-thumb
+        @include ag.focus-range-thumb;
     }
     @else {
         border-color: var(--ag-checkbox-checked-color);
@@ -298,6 +298,6 @@
 
 @mixin -ag-active-range-thumb {
     @if meta.mixin-exists(ag-active-range-thumb) {
-        @include ag.active-range-thumb
+        @include ag.active-range-thumb;
     }
 }

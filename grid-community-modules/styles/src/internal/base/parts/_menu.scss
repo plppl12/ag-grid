@@ -145,7 +145,7 @@
     }
 
     .ag-set-filter-group-icons {
-        @include ag.unthemed-rtl((margin-right: var(--ag-widget-container-horizontal-padding)))
+        @include ag.unthemed-rtl((margin-right: var(--ag-widget-container-horizontal-padding)));
     }
 
     @include ag.keyboard-focus((ag-filter-virtual-list-item), 1px);

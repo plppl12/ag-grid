@@ -1,11 +1,11 @@
-import { ColDef, createGrid, GridApi, GridOptions } from '@ag-grid-community/core';
+import { ColDef, Grid, GridApi, GridOptions } from '@ag-grid-community/core';
 import styled from '@emotion/styled';
-import { useColorScheme } from 'atoms/colorScheme';
 import { useCurrentFeature } from 'atoms/currentFeature';
 import { useEnabledFeatures } from 'atoms/enabledFeatures';
-import { useParentTheme } from 'atoms/parentTheme';
+import { useThemeClass } from 'atoms/theme';
 import { useVariableValues } from 'atoms/values';
 import { withErrorBoundary } from 'components/ErrorBoundary';
+import { installTheme } from 'design-system';
 import { getColumnDefs, getGroupColumnDefs, getRowData } from 'model/exampleData';
 import { Feature } from 'model/features';
 import { isNotNull } from 'model/utils';
@@ -21,8 +21,7 @@ const variablesRequiringRebuild = [
 const GridPreview = () => {
   const features = useEnabledFeatures();
   const currentFeature = useCurrentFeature();
-  const parentTheme = useParentTheme();
-  const colorScheme = useColorScheme() || undefined;
+  const themeClass = useThemeClass();
   const values = useVariableValues();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -31,12 +30,14 @@ const GridPreview = () => {
 
   const featureStateRef = useRef<Record<string, unknown>>({});
 
+  useEffect(() => {
+    installTheme({ className: 'ag-theme-custom' });
+  }, []);
+
   const rebuildKey = variablesRequiringRebuild
     .map((variableName) => values[variableName])
     .filter(isNotNull)
-    .map((value) => value.toCss())
-    // .concat(parentTheme.name)
-    // .concat(String(colorScheme))
+    .map((value) => value.css)
     .concat(features.map((f) => f.name))
     .join(';');
 
@@ -59,18 +60,22 @@ const GridPreview = () => {
             feature.restoreState?.(api, state);
           }
         }
+        setApi(api);
       },
     };
 
-    const api = createGrid(wrapperRef.current, options);
-    apiRef.current = api;
-    setApi(api);
+    // TODO use createGrid after merging spike branch
+    const grid = new Grid(wrapperRef.current, options);
+    apiRef.current = null;
+    setApi(null);
 
     return () => {
-      for (const feature of features) {
-        featureState[feature.name] = feature.getState?.(api);
+      if (apiRef.current) {
+        for (const feature of features) {
+          featureState[feature.name] = feature.getState?.(apiRef.current);
+        }
       }
-      api.destroy();
+      grid.destroy();
     };
   }, [features, rebuildKey]);
 
@@ -88,12 +93,12 @@ const GridPreview = () => {
   return (
     <>
       <Wrapper
-        className={`${parentTheme.name}-${colorScheme}`}
+        className={`${themeClass}`}
         ref={wrapperRef}
         style={{ display: PreviewComponent ? 'none' : 'block' }}
       ></Wrapper>
       {PreviewComponent && (
-        <Wrapper className={`${parentTheme.name}-${colorScheme}`}>
+        <Wrapper className={themeClass}>
           <PreviewComponent />
         </Wrapper>
       )}
@@ -110,8 +115,10 @@ const Wrapper = styled('div')`
   height: 100%;
 `;
 
-const buildGridOptions = (features: ReadonlyArray<Feature>): GridOptions => {
-  const defaultColDef: ColDef = { };
+const buildGridOptions = (features: readonly Feature[]): GridOptions => {
+  const defaultColDef: ColDef = {
+    sortable: true,
+  };
   const columnDefs = getColumnDefs();
   const options: GridOptions = { defaultColDef, columnDefs };
   for (const feature of features) {

@@ -64,7 +64,7 @@
     }
 
     .ag-group-title-bar-icon {
-        @include ag.theme-rtl((margin-right: var(--ag-grid-size)))
+        @include ag.theme-rtl((margin-right: var(--ag-grid-size)));
     }
 
     .ag-charts-format-top-level-group-toolbar {

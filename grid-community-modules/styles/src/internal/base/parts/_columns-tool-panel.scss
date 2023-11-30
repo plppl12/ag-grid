@@ -35,6 +35,6 @@
     }
 
     .ag-column-select-list {
-        @include ag.list-item-hovered()
+        @include ag.list-item-hovered();
     }
 }

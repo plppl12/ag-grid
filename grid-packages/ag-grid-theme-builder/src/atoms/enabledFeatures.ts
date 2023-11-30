@@ -2,13 +2,13 @@ import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { Feature, allFeatures } from 'model/features';
 import { currentFeatureAtom } from './currentFeature';
 
-export const enabledFeaturesAtom = atom<ReadonlyArray<Feature>>(
+export const enabledFeaturesAtom = atom<readonly Feature[]>(
   allFeatures.filter((f) => f.alwaysEnabled),
 );
 
-export const useEnabledFeatures = (): ReadonlyArray<Feature> => useAtomValue(enabledFeaturesAtom);
+export const useEnabledFeatures = (): readonly Feature[] => useAtomValue(enabledFeaturesAtom);
 
-export const useDisabledFeatures = (): ReadonlyArray<Feature> => {
+export const useDisabledFeatures = (): readonly Feature[] => {
   const enabled = new Set(useEnabledFeatures());
   return allFeatures.filter((f) => !enabled.has(f));
 };
