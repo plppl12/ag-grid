@@ -1,12 +1,12 @@
 import { CssProperties, CssPropertiesValue } from './CssProperties';
-import { GridClassNames } from './GridClassNames';
+import { GridClassName } from './GridClassName';
 
 export type TopLevelRules = SelectorRules & AtRules;
 
 export type Selector =
-  | GridClassNames
-  | `&${GridClassNames}`
-  | `&:not(${GridClassNames})`
+  | GridClassName
+  | `&${GridClassName}`
+  | `&:not(${GridClassName})`
   | PseudoClassSelector
   | PseudoElementSelector
   | Element

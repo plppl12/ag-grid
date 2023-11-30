@@ -13,9 +13,7 @@ type GroupComponent<T extends string> =
   | `${T}GroupToolbar`
   | `${T}GroupContainer`;
 
-type ListComponent<T extends string> =
-  | `${T}List`
-  | `${T}ListItem`;
+type ListComponent<T extends string> = `${T}List` | `${T}ListItem`;
 
 type VirtualListComponent<T extends string> =
   | `${T}VirtualListViewport`
@@ -29,12 +27,9 @@ type PanelComponent<T extends string> =
   | `${T}PanelTitleBarButtons`
   | `${T}PanelContentWrapper`;
 
-type TabsComponent<T extends string> =
-  | T
-  | `${T}Header`
-  | `${T}Body`;
+type TabsComponent<T extends string> = T | `${T}Header` | `${T}Body`;
 
-type ColumnDropDirection = "" | "Horizontal" | "Vertical";
+type ColumnDropDirection = '' | 'Horizontal' | 'Vertical';
 type ColumnDropComponent =
   | `columnDrop${ColumnDropDirection}`
   | `columnDrop${ColumnDropDirection}TitleBar`
@@ -45,10 +40,15 @@ type ColumnDropComponent =
   | `columnDrop${ColumnDropDirection}EmptyMessage`
   | `columnDrop${ColumnDropDirection}CellSeparator`;
 
-type MenuOptionPart = "Part" | "Text" | "Icon" | "Shortcut" | "PopupPointer" | "Disabled" | "Active"
-type MenuOptionComponent =
-  | `menuOption${MenuOptionPart}`
-  | `compactMenuOption${MenuOptionPart}`;
+type MenuOptionPart =
+  | 'Part'
+  | 'Text'
+  | 'Icon'
+  | 'Shortcut'
+  | 'PopupPointer'
+  | 'Disabled'
+  | 'Active';
+type MenuOptionComponent = `menuOption${MenuOptionPart}` | `compactMenuOption${MenuOptionPart}`;
 
 export type AdvancedFilterClassNames =
   | 'advancedFilter'
@@ -666,9 +666,7 @@ export type RangeSelectionClassNames =
   | 'selectionFillRight'
   | 'selectionFillTop';
 
-export type RichSelectClassNames =
-  | 'cellEditWrapper'
-  | 'richSelectFieldInput';
+export type RichSelectClassNames = 'cellEditWrapper' | 'richSelectFieldInput';
 
 export type RowGroupingClassNames =
   | 'columnDropCellButton'
@@ -718,9 +716,7 @@ export type SideBarClassNames =
   | 'toolPanelWrapper'
   | 'unselectable';
 
-export type SparklinesClassNames =
-  | 'sparklineTooltip'
-  | 'sparklineWrapper';
+export type SparklinesClassNames = 'sparklineTooltip' | 'sparklineWrapper';
 
 export type StatusBarClassNames =
   | 'statusBar'
@@ -736,7 +732,7 @@ export type StatusBarClassNames =
   | 'statusPanelTotalAndFilteredRowCount'
   | 'statusPanelTotalRowCount';
 
-export type GridClassNames =
+export type GridClassName =
   | AdvancedFilterClassNames
   | ChartsClassNames
   | ColumnToolPanelClassNames
@@ -752,4 +748,3 @@ export type GridClassNames =
   | SideBarClassNames
   | SparklinesClassNames
   | StatusBarClassNames;
-
